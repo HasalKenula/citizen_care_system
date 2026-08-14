@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citizen Care · Personal File Management</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+
+    <!-- Bootstrap 4.3.1 CSS (kept for reference/consistency; our own stylesheet
+         below does not depend on this loading and fully covers the layout) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+    <!-- FontAwesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="Style.css" />
+</head>
+
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <div class="navbar-brand-container">
+            <img src="images/logo.svg.png" alt="Government Crest" class="navbar-brand-logo"
+                 onerror="this.src='https://via.placeholder.com/40'" />
+            <div>
+                <div class="brand-text-title">CITIZEN CARE SYSTEM</div>
+                <div class="brand-text-subtitle">DISTRICT SECRETARIAT - POLONNARUWA</div>
+            </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-menu ml-auto d-flex align-items-center list-unstyled mb-0">
+                <li class="nav-item"><a class="nav-link-custom" href="#">CITIZEN MANAGEMENT</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">SERVICE MANAGEMENT</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">INTERNAL SERVICE</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">USER CONFIGURATION</a></li>
+                <li class="nav-item ml-3">
+                    <div class="user-icon-btn"><i class="fas fa-sliders-h"></i></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div class="main-wrapper">
+
+    <!-- Record Management Filter Block -->
+    <div class="filter-card">
+        <div class="filter-card-title">Personal File Management</div>
+        <div class="form-row align-items-center">
+            <div class="col-md-3 mb-2">
+                <select class="form-control form-control-custom">
+                    <option selected>All Positions</option>
+                    <option>By Position / Grade</option>
+                    <option>By Department / Ministry</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-2">
+                <input type="text" class="form-control form-control-custom" value="2020/01/01"
+                       placeholder="YYYY/MM/DD" />
+            </div>
+            <div class="col-md-2 mb-2">
+                <input type="text" class="form-control form-control-custom" value="2026/08/31"
+                       placeholder="YYYY/MM/DD" />
+            </div>
+            <div class="col-md-3 mb-2">
+                <select class="form-control form-control-custom">
+                    <option selected>In Service</option>
+                    <option>Retired</option>
+                    <option>Transferred</option>
+                    <option>On Leave</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-2">
+                <button class="btn btn-view-data">View Data</button>
+            </div>
+        </div>
+        <div class="mt-2">
+            <!-- ADD BUTTON – triggers the personal file form modal -->
+            <button class="btn btn-add" data-toggle="modal" data-target="#personalFileModal">
+                <i class="fas fa-plus-circle mr-1"></i> Add
+            </button>
+        </div>
+    </div>
+
+    <!-- DataTable Container -->
+    <div class="table-card">
+        <table id="recordsTable" class="table table-striped table-bordered w-100">
+            <thead>
+            <tr>
+                <th>Employee Number</th>
+                <th>File Number</th>
+                <th>Employee Name</th>
+                <th>Position / Grade</th>
+                <th>Department / Ministry</th>
+                <th>Date Received by District Secretariat</th>
+                <th class="text-center" class="col-actions">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>EMP-0154</td>
+                <td>F-0092</td>
+                <td>K. A. Perera</td>
+                <td>Development Officer</td>
+                <td>District Secretariat</td>
+                <td>2026/08/02</td>
+                <td class="text-center">
+                    <a href="#" class="action-icon btn-doc"><i class="fas fa-file-alt"></i></a>
+                    <a href="#" class="action-icon btn-upload"><i class="fas fa-arrow-circle-up"></i></a>
+                    <a href="#" class="action-icon btn-delete"><i class="fas fa-trash-alt"></i></a>
+                    <a href="#" class="action-icon btn-history"><i class="fas fa-history"></i></a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========== MODAL: PERSONAL FILE MANAGEMENT FORM ========== -->
+<div class="modal fade" id="personalFileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-id-badge mr-2"
+                                           class="icon-primary"></i>Personal File Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); alert('Personal file record saved (simulated).');">
+
+                    <!-- ======== SECTION: EMPLOYEE DETAILS ======== -->
+                    <div class="section-heading">01) Employee Details</div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="empNo_modal">1. Employee Number</label>
+                            <input type="text" class="form-control form-control-custom" id="empNo_modal"
+                                   placeholder="e.g. EMP-0154" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="fileNo_modal">2. File Number</label>
+                            <input type="text" class="form-control form-control-custom" id="fileNo_modal"
+                                   placeholder="e.g. F-0092" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="empName_modal">3. Employee Name</label>
+                            <input type="text" class="form-control form-control-custom" id="empName_modal"
+                                   placeholder="Full name" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="position_modal">4. Position and Grade (Dropdown)</label>
+                            <select class="form-control form-control-custom" id="position_modal">
+                                <option value="">-- Select --</option>
+                                <option value="Development Officer">Development Officer</option>
+                                <option value="Management Assistant">Management Assistant</option>
+                                <option value="Divisional Secretary">Divisional Secretary</option>
+                                <option value="Grama Niladhari">Grama Niladhari</option>
+                                <option value="Samurdhi Officer">Samurdhi Officer</option>
+                                <option value="Driver">Driver</option>
+                                <option value="Office Assistant">Office Assistant</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="department_modal">5. Department / Ministry (Dropdown)</label>
+                            <select class="form-control form-control-custom" id="department_modal">
+                                <option value="">-- Select --</option>
+                                <option value="District Secretariat">District Secretariat</option>
+                                <option value="Divisional Secretariat">Divisional Secretariat</option>
+                                <option value="Ministry of Public Administration">Ministry of Public
+                                    Administration</option>
+                                <option value="Ministry of Finance">Ministry of Finance</option>
+                                <option value="Department of Agriculture">Department of Agriculture</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="nic_modal">7. National Identity Card (NIC) Number</label>
+                            <input type="text" class="form-control form-control-custom" id="nic_modal"
+                                   placeholder="e.g. 199012345678" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="address_modal">6. Employee's Personal Address</label>
+                            <input type="text" class="form-control form-control-custom" id="address_modal"
+                                   placeholder="Residential address" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="dob_modal">8. Date of Birth</label>
+                            <input type="date" class="form-control form-control-custom" id="dob_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="appointDate_modal">9. Date of Appointment</label>
+                            <input type="date" class="form-control form-control-custom" id="appointDate_modal" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="confirmDate_modal">10. Date of Confirmation (Permanency)</label>
+                            <input type="date" class="form-control form-control-custom" id="confirmDate_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="incrementDate_modal">11. Salary Increment Date</label>
+                            <input type="date" class="form-control form-control-custom" id="incrementDate_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="wopNo_modal">13. Widows' &amp; Orphans' / Provident Fund Number</label>
+                            <input type="text" class="form-control form-control-custom" id="wopNo_modal"
+                                   placeholder="e.g. WOP-2211" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="phone_modal">14. Telephone Number</label>
+                            <input type="text" class="form-control form-control-custom" id="phone_modal"
+                                   placeholder="e.g. 077 1234567" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="letterNo_modal">15. Appointment Letter Number</label>
+                            <input type="text" class="form-control form-control-custom" id="letterNo_modal"
+                                   placeholder="e.g. AL/2020/0154" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="receivedDate_modal">16. Date Received by District Secretariat Office</label>
+                            <input type="date" class="form-control form-control-custom" id="receivedDate_modal" />
+                        </div>
+                    </div>
+
+                    <!-- ======== 12. PROMOTION DETAILS (Table) ======== -->
+                    <div class="sub-section-label">12. Promotion Details</div>
+                    <div class="table-responsive">
+                        <table class="table-embedded">
+                            <thead>
+                            <tr>
+                                <th class="col-w10">No.</th>
+                                <th class="col-w45">Grade</th>
+                                <th class="col-w45">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <select class="form-control-sm-custom">
+                                        <option value="">-- Select Grade --</option>
+                                        <option value="Grade III">Grade III</option>
+                                        <option value="Grade II">Grade II</option>
+                                        <option value="Grade I">Grade I</option>
+                                        <option value="Special Grade">Special Grade</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <select class="form-control-sm-custom">
+                                        <option value="">-- Select Grade --</option>
+                                        <option value="Grade III">Grade III</option>
+                                        <option value="Grade II">Grade II</option>
+                                        <option value="Grade I">Grade I</option>
+                                        <option value="Special Grade">Special Grade</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <select class="form-control-sm-custom">
+                                        <option value="">-- Select Grade --</option>
+                                        <option value="Grade III">Grade III</option>
+                                        <option value="Grade II">Grade II</option>
+                                        <option value="Grade I">Grade I</option>
+                                        <option value="Special Grade">Special Grade</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    <select class="form-control-sm-custom">
+                                        <option value="">-- Select Grade --</option>
+                                        <option value="Grade III">Grade III</option>
+                                        <option value="Grade II">Grade II</option>
+                                        <option value="Grade I">Grade I</option>
+                                        <option value="Special Grade">Special Grade</option>
+                                    </select>
+                                </td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ======== 17. TRANSFER / LEAVE / OTHER DATES ======== -->
+                    <div class="section-heading">17) Transfer / Leave / Other Dates</div>
+                    <div class="table-responsive">
+                        <table class="table-embedded">
+                            <thead>
+                            <tr>
+                                <th class="col-w10">No.</th>
+                                <th class="col-w50">Reason</th>
+                                <th class="col-w40">Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><input type="text" class="form-control-sm-custom"
+                                           placeholder="e.g. Transfer to Divisional Secretariat" /></td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><input type="text" class="form-control-sm-custom"
+                                           placeholder="e.g. No-pay leave" /></td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><input type="text" class="form-control-sm-custom" placeholder="Other" />
+                                </td>
+                                <td><input type="date" class="form-control-sm-custom" /></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ======== BANK DETAILS ======== -->
+                    <div class="section-heading">Bank Details</div>
+                    <div class="info-note-card">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        This section should allow entry of the name, employee number and telephone number of the
+                        officer in charge of the subject, for banking correspondence.
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="bankOfficerName_modal">Officer in Charge - Name</label>
+                            <input type="text" class="form-control form-control-custom" id="bankOfficerName_modal"
+                                   placeholder="Full name" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="bankOfficerEmpNo_modal">Officer in Charge - Employee Number</label>
+                            <input type="text" class="form-control form-control-custom" id="bankOfficerEmpNo_modal"
+                                   placeholder="e.g. EMP-0011" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="bankOfficerPhone_modal">Officer in Charge - Telephone Number</label>
+                            <input type="text" class="form-control form-control-custom" id="bankOfficerPhone_modal"
+                                   placeholder="e.g. 071 2345678" />
+                        </div>
+                    </div>
+
+                    <!-- ======== SMS & REPORTING ======== -->
+                    <div class="section-heading">SMS Notifications</div>
+                    <div class="card p-3 mb-3 border">
+                        <ul class="mb-0 pl-3" class="sms-list">
+                            <li>Salary increment date - one month before - sent to the employee or officer in
+                                charge.</li>
+                            <li>Date of confirmation - one month before - sent to the employee.</li>
+                            <li>Promotion date - one month before - sent to the employee.</li>
+                            <li>Retirement - six months before the officer turns 60 - sent to the employee and
+                                officer in charge.</li>
+                        </ul>
+                    </div>
+
+                    <div class="card p-3 mb-3 border">
+                        <h6 class="font-weight-bold text-secondary">Reporting Features</h6>
+
+                        <div class="form-group">
+                            <label>1. Staff Count by Position (select from dropdown)</label>
+                            <div class="table-responsive">
+                                <table class="table-embedded">
+                                    <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Position</th>
+                                        <th>Number of Employees</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="e.g. Development Officer" /></td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Count" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="e.g. Management Assistant" /></td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Count" /></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>2. Officers Retiring by a Given Date (select date from dropdown)</label>
+                            <div class="table-responsive">
+                                <table class="table-embedded">
+                                    <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Retirement Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Position" /></td>
+                                        <td><input type="date" class="form-control-sm-custom" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Position" /></td>
+                                        <td><input type="date" class="form-control-sm-custom" /></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label>3. List of Transferred / Retired Employees</label>
+                            <div class="table-responsive">
+                                <table class="table-embedded">
+                                    <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Nature (Transfer / Retirement)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td>
+                                            <select class="form-control-sm-custom">
+                                                <option value="">-- Select --</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Retirement">Retirement</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td>
+                                            <select class="form-control-sm-custom">
+                                                <option value="">-- Select --</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Retirement">Retirement</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td>
+                                            <select class="form-control-sm-custom">
+                                                <option value="">-- Select --</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Retirement">Retirement</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><input type="text" class="form-control-sm-custom"
+                                                   placeholder="Name" /></td>
+                                        <td>
+                                            <select class="form-control-sm-custom">
+                                                <option value="">-- Select --</option>
+                                                <option value="Transfer">Transfer</option>
+                                                <option value="Retirement">Retirement</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="d-flex justify-content-end gap-3 mt-3">
+                        <button type="reset" class="btn btn-reset mr-2">Reset</button>
+                        <button type="submit" class="btn btn-submit">Save Personal File Record</button>
+                    </div>
+                </form>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-content -->
+    </div> <!-- modal-dialog -->
+</div> <!-- modal -->
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="images/SLT_Logo.svg.png" alt="SLT Logo" class="slt-logo"
+                 onerror="this.style.display='none'" />
+            <span>Powered by Sri Lanka Telecom</span>
+        </div>
+        <div class="footer-copy">© 2025 All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+
+<script src="Script.js"></script>
+</body>
+
+</html>
