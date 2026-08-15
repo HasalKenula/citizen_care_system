@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Citizen Care · Residence Management System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet" />
+    <!-- Bootstrap 4.3.1 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <!-- FontAwesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap4.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="Style.css" />
+</head>
+
+<body>
+
+<!-- ========== TOP NAV ========== -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <div class="navbar-brand-container">
+            <img src="images/logo.png" alt="Government Crest" class="navbar-brand-logo"
+                 onerror="this.src='https://via.placeholder.com/40'" />
+            <div>
+                <div class="brand-text-title">CITIZEN CARE SYSTEM</div>
+                <div class="brand-text-subtitle">DISTRICT SECRETARIAT - POLONNARUWA</div>
+            </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-menu ml-auto d-flex align-items-center list-unstyled mb-0">
+                <li class="nav-item"><a class="nav-link-custom" href="#">CITIZEN MANAGEMENT</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">SERVICE MANAGEMENT</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">INTERNAL SERVICE</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#">USER CONFIGURATION</a></li>
+                <li class="nav-item ml-3">
+                    <div class="user-icon-btn"><i class="fas fa-sliders-h"></i></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== MAIN CONTENT ========== -->
+<div class="main-wrapper">
+
+    <!-- Record Management Filter Block -->
+    <div class="filter-card">
+        <div class="filter-card-title">Residence Management System</div>
+        <div class="form-row align-items-center">
+            <div class="col-md-3 mb-2">
+                <select class="form-control form-control-custom">
+                    <option selected>All Houses</option>
+                    <option>By House Category</option>
+                    <option>By Floor</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-2">
+                <input type="text" class="form-control form-control-custom" value="2020/01/01"
+                       placeholder="YYYY/MM/DD" />
+            </div>
+            <div class="col-md-2 mb-2">
+                <input type="text" class="form-control form-control-custom" value="2026/08/31"
+                       placeholder="YYYY/MM/DD" />
+            </div>
+            <div class="col-md-3 mb-2">
+                <select class="form-control form-control-custom">
+                    <option selected>Occupied</option>
+                    <option>Vacant</option>
+                    <option>Under Committee Review</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-2">
+                <button class="btn btn-view-data">View Data</button>
+            </div>
+        </div>
+        <div class="mt-2">
+            <!-- ADD BUTTON – triggers the residence form modal -->
+            <button class="btn btn-add" data-toggle="modal" data-target="#residenceModal">
+                <i class="fas fa-plus-circle mr-1"></i> Add
+            </button>
+        </div>
+    </div>
+
+    <!-- DataTable Container -->
+    <div class="table-card">
+        <table id="recordsTable" class="table table-striped table-bordered w-100">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>House Number</th>
+                <th>Floor Name</th>
+                <th>House Category</th>
+                <th>Resident Officer</th>
+                <th>Date House Handed Over</th>
+                <th class="text-center col-actions">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>H-014</td>
+                <td>Ground Floor</td>
+                <td>Type B Quarters</td>
+                <td>S. K. Jayasinghe</td>
+                <td>2026/08/02</td>
+                <td class="text-center">
+                    <a href="#" class="action-icon btn-doc"><i class="fas fa-file-alt"></i></a>
+                    <a href="#" class="action-icon btn-upload"><i class="fas fa-arrow-circle-up"></i></a>
+                    <a href="#" class="action-icon btn-delete"><i class="fas fa-trash-alt"></i></a>
+                    <a href="#" class="action-icon btn-history"><i class="fas fa-history"></i></a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ========== MODAL: RESIDENCE MANAGEMENT FORM ========== -->
+<div class="modal fade" id="residenceModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-home mr-2 icon-primary"></i>Residence Management System
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); alert('Residence record saved (simulated).');">
+
+                    <!-- ======== SECTION: HOUSE DETAILS ======== -->
+                    <div class="section-heading">01) House Details</div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="recordNo_modal">1. Number</label>
+                            <input type="text" class="form-control form-control-custom" id="recordNo_modal"
+                                   placeholder="e.g. 001" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="floorName_modal">2. Floor Name</label>
+                            <input type="text" class="form-control form-control-custom" id="floorName_modal"
+                                   placeholder="e.g. Ground Floor" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="houseNo_modal">3. House Number</label>
+                            <input type="text" class="form-control form-control-custom" id="houseNo_modal"
+                                   placeholder="e.g. H-014" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="houseCategory_modal">4. House Category (Dropdown)</label>
+                            <select class="form-control form-control-custom" id="houseCategory_modal">
+                                <option value="">-- Select --</option>
+                                <option value="Type A Quarters">Type A Quarters</option>
+                                <option value="Type B Quarters">Type B Quarters</option>
+                                <option value="Type C Quarters">Type C Quarters</option>
+                                <option value="Single Officer Quarters">Single Officer Quarters</option>
+                                <option value="Bungalow">Bungalow</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="rentBasis_modal">10. Rent / Charging Basis (Dropdown)</label>
+                            <select class="form-control form-control-custom" id="rentBasis_modal">
+                                <option value="">-- Select --</option>
+                                <option value="Rent-free">Rent-free</option>
+                                <option value="Standard Rent">Standard Rent</option>
+                                <option value="Concessionary Rent">Concessionary Rent</option>
+                                <option value="Salary Deduction">Salary Deduction</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="workplace_modal">9. Place of Work / Institution</label>
+                            <input type="text" class="form-control form-control-custom" id="workplace_modal"
+                                   placeholder="e.g. District Secretariat" />
+                        </div>
+                    </div>
+
+                    <!-- ======== SECTION: RESIDENT OFFICER DETAILS ======== -->
+                    <div class="section-heading">Resident Officer Details</div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="residentName_modal">5. Name of Current Resident Officer</label>
+                            <input type="text" class="form-control form-control-custom" id="residentName_modal"
+                                   placeholder="Full name" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="nic_modal">7. NIC Number</label>
+                            <input type="text" class="form-control form-control-custom" id="nic_modal"
+                                   placeholder="e.g. 198755012345" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="phone_modal">8. Telephone Number</label>
+                            <input type="text" class="form-control form-control-custom" id="phone_modal"
+                                   placeholder="e.g. 071 2345678" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="permanentAddress_modal">6. Permanent Address</label>
+                            <input type="text" class="form-control form-control-custom"
+                                   id="permanentAddress_modal" placeholder="Permanent residential address" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="spouseName_modal">11. Spouse's Name</label>
+                            <input type="text" class="form-control form-control-custom" id="spouseName_modal"
+                                   placeholder="Full name" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="spouseNic_modal">12. Spouse's NIC Number</label>
+                            <input type="text" class="form-control form-control-custom" id="spouseNic_modal"
+                                   placeholder="e.g. 199012345678" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="workAddress_modal">13. Address of Workplace</label>
+                            <input type="text" class="form-control form-control-custom" id="workAddress_modal"
+                                   placeholder="Workplace address" />
+                        </div>
+                    </div>
+
+                    <!-- ======== SECTION: OCCUPANCY DETAILS ======== -->
+                    <div class="section-heading">Occupancy Details</div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="handedOverDate_modal">14. Date House Was Handed Over</label>
+                            <input type="date" class="form-control form-control-custom"
+                                   id="handedOverDate_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="periodGranted_modal">15. Period of Occupancy Granted</label>
+                            <input type="text" class="form-control form-control-custom" id="periodGranted_modal"
+                                   placeholder="e.g. 3 years" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="dueReturnDate_modal">16. Date Due to Return</label>
+                            <input type="date" class="form-control form-control-custom" id="dueReturnDate_modal" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="appealDate_modal">17. Date of Appeal</label>
+                            <input type="date" class="form-control form-control-custom" id="appealDate_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="committeeDate_modal">18. Housing Committee Date</label>
+                            <input type="date" class="form-control form-control-custom" id="committeeDate_modal" />
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <label for="committeeDecision_modal">19. Committee Decision</label>
+                            <select class="form-control form-control-custom" id="committeeDecision_modal">
+                                <option value="">-- Select --</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Extended">Extended</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-4 form-group">
+                            <label for="returnedDate_modal">20. Date Returned</label>
+                            <input type="date" class="form-control form-control-custom" id="returnedDate_modal" />
+                        </div>
+                    </div>
+
+                    <!-- ======== SMS NOTIFICATIONS ======== -->
+                    <div class="section-heading">SMS Notifications</div>
+                    <div class="card p-3 mb-3 border">
+                        <ul class="mb-0 pl-3 sms-list">
+                            <li>Six months before the occupancy period ends — sent to the resident.</li>
+                            <li>One month before the occupancy period ends (reminder) — sent to the resident.</li>
+                            <li>The day after the occupancy period ends — sent to the officer in charge.</li>
+                        </ul>
+                    </div>
+
+                    <!-- ======== REPORTING FEATURES ======== -->
+                    <div class="section-heading">Reporting Features</div>
+                    <div class="card p-3 mb-3 border">
+                        <label>1. Residence History by NIC Number (past 10 years, including current
+                            residence)</label>
+                        <div class="form-row mb-2">
+                            <div class="col-md-4 form-group mb-0">
+                                <input type="text" class="form-control-custom form-control"
+                                       placeholder="Enter NIC number to look up" />
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table-embedded">
+                                <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Officer Name</th>
+                                    <th>Spouse's Name</th>
+                                    <th>Date Residence Given</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="text" class="form-control-sm-custom"
+                                               placeholder="Name" /></td>
+                                    <td><input type="text" class="form-control-sm-custom"
+                                               placeholder="Spouse's name" /></td>
+                                    <td><input type="date" class="form-control-sm-custom" /></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><input type="text" class="form-control-sm-custom"
+                                               placeholder="Name" /></td>
+                                    <td><input type="text" class="form-control-sm-custom"
+                                               placeholder="Spouse's name" /></td>
+                                    <td><input type="date" class="form-control-sm-custom" /></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Form Action Buttons -->
+                    <div class="d-flex justify-content-end gap-3 mt-3">
+                        <button type="reset" class="btn btn-reset mr-2">Reset</button>
+                        <button type="submit" class="btn btn-submit">Save Residence Record</button>
+                    </div>
+                </form>
+            </div> <!-- modal-body -->
+        </div> <!-- modal-content -->
+    </div> <!-- modal-dialog -->
+</div> <!-- modal -->
+
+<!-- ========== FOOTER ========== -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="images/slt.png" alt="SLT Logo" class="slt-logo"
+                 onerror="this.style.display='none'" />
+            <span>Powered by Sri Lanka Telecom</span>
+        </div>
+        <div class="footer-copy">© 2025 All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+
+<!-- Custom Behaviour -->
+<script src="Script.js"></script>
+</body>
+
+</html>
